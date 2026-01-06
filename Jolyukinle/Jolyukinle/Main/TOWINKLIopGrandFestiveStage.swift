@@ -2,7 +2,7 @@
 //  TOWINKLIopGrandFestiveStage.swift
 //  Jolyukinle
 //
-//  Created by mumu on 2026/1/5.
+//  Created by  on 2026/1/5.
 //
 
 import UIKit
@@ -16,18 +16,12 @@ class TOWINKLIopGrandFestiveStage: UIViewController {
     
     private let TOWINKLIopNavigationNodes: [UIButton] = (0..<5).map { TOWINKLIopIdx in
         let TOWINKLIopNode = UIButton()
-        let TOWINKLIopGlyphs = [("TOWINKLIophouse","TOWINKLIophouse.fill"), ("",""), ("TOWINKLItake","TOWINKLItake"), ("TOWINKLInoti","TOWINKLIopnoti.fill"),("TOWINKLIopMy","TOWINKLIopMy.fill")]
-        TOWINKLIopNode.setImage(UIImage(systemName: TOWINKLIopGlyphs[TOWINKLIopIdx].0), for: .normal)
-        TOWINKLIopNode.setImage(UIImage(systemName: TOWINKLIopGlyphs[TOWINKLIopIdx].1), for: .selected)
+        let TOWINKLIopGlyphs = [("TOWINKLIophouse","TOWINKLIophouse.fill"), ("TOWINKLIopplay.fill","TOWINKLIopplay"), ("TOWINKLItake","TOWINKLItake"), ("TOWINKLInoti","TOWINKLIopnoti.fill"),("TOWINKLIopMy","TOWINKLIopMy.fill")]
+        TOWINKLIopNode.setImage(UIImage(named: TOWINKLIopGlyphs[TOWINKLIopIdx].0), for: .normal)
+        TOWINKLIopNode.setImage(UIImage(named: TOWINKLIopGlyphs[TOWINKLIopIdx].1), for: .selected)
         TOWINKLIopNode.tag = TOWINKLIopIdx
+        print(TOWINKLIopIdx)
         
-        if TOWINKLIopIdx == 2 {
-            TOWINKLIopNode.backgroundColor = .systemBlue
-            TOWINKLIopNode.layer.cornerRadius = 30
-            TOWINKLIopNode.layer.shadowColor = UIColor.systemBlue.cgColor
-            TOWINKLIopNode.layer.shadowOpacity = 0.3
-            TOWINKLIopNode.layer.shadowOffset = CGSize(width: 0, height: 4)
-        }
         return TOWINKLIopNode
     }
 
@@ -81,6 +75,12 @@ class TOWINKLIopGrandFestiveStage: UIViewController {
     }
     
     private func TOWINKLIopNavigateToPortal(TOWINKLIopTarget: Int) {
+        if TOWINKLIopTarget == 2 {
+                   
+            TOWINKLIopInvokePublishingSheet()
+            return // Do not switch the main scene for the popup case
+        }
+        
         TOWINKLIopActiveScene?.willMove(toParent: nil)
         TOWINKLIopActiveScene?.view.removeFromSuperview()
         TOWINKLIopActiveScene?.removeFromParent()
@@ -88,6 +88,10 @@ class TOWINKLIopGrandFestiveStage: UIViewController {
         let TOWINKLIopNewScene: UIViewController
         switch TOWINKLIopTarget {
         case 0: TOWINKLIopNewScene = TOWINKLIopLobbyEngine()
+        case 1: TOWINKLIopNewScene = TOWINKLIopVibeDynamicStage()
+        case 3: TOWINKLIopNewScene = TOWINKLIopMeassgeStage()
+       
+        case 4:TOWINKLIopNewScene = TOWINKLIopCenterStage()
         default: TOWINKLIopNewScene = UIViewController()
         }
         
@@ -98,10 +102,45 @@ class TOWINKLIopGrandFestiveStage: UIViewController {
         TOWINKLIopActiveScene = TOWINKLIopNewScene
         
         for (TOWINKLIopIdx, TOWINKLIopNode) in TOWINKLIopNavigationNodes.enumerated() {
-            if TOWINKLIopIdx != 2 {
-                TOWINKLIopNode.tintColor = TOWINKLIopIdx == TOWINKLIopTarget ? UIColor.systemBlue : .systemGray4
+            if TOWINKLIopIdx == TOWINKLIopTarget {
+                TOWINKLIopNode.isSelected = true
+            }else{
+                TOWINKLIopNode.isSelected = false
             }
+//            if TOWINKLIopIdx != 2 {
+//                TOWINKLIopNode.is = TOWINKLIopIdx == TOWINKLIopTarget ? UIColor.systemBlue : .systemGray4
+//            }
         }
     }
+    
+    private func TOWINKLIopInvokePublishingSheet() {
+            let TOWINKLIopAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            let TOWINKLIopPhotoOption = UIAlertAction(title: "Photo", style: .default) { _ in
+                print("TOWINKLIop_Action: Open Photo Gallery")
+            }
+            
+            let TOWINKLIopVideoOption = UIAlertAction(title: "Video", style: .default) { _ in
+                print("TOWINKLIop_Action: Open Video Recorder")
+            }
+            
+            let TOWINKLIopCancelOption = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            // Customizing the appearance for the "Cancel" button to match the blue gradient theme
+            TOWINKLIopPhotoOption.setValue(UIColor.systemBlue, forKey: "titleTextColor")
+            TOWINKLIopVideoOption.setValue(UIColor.systemBlue, forKey: "titleTextColor")
+            
+            TOWINKLIopAlert.addAction(TOWINKLIopPhotoOption)
+            TOWINKLIopAlert.addAction(TOWINKLIopVideoOption)
+            TOWINKLIopAlert.addAction(TOWINKLIopCancelOption)
+            
+            // Fix for iPad support
+            if let TOWINKLIopPopover = TOWINKLIopAlert.popoverPresentationController {
+                TOWINKLIopPopover.sourceView = TOWINKLIopNavigationNodes[3]
+                TOWINKLIopPopover.sourceRect = TOWINKLIopNavigationNodes[3].bounds
+            }
+            
+            self.present(TOWINKLIopAlert, animated: true, completion: nil)
+        }
 }
 
