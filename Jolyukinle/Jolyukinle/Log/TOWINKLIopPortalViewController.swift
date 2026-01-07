@@ -81,7 +81,15 @@ class TOWINKLIopPortalViewController: UIViewController {
         super.viewDidLayoutSubviews()
         TOWINKLIopGradientLayer.frame = TOWINKLIopEntryAction.bounds
     }
-
+    
+    private let TOWINKLIopNoaccountTitle: UILabel = {
+        let TOWINKLIopLabel = UILabel()
+        TOWINKLIopLabel.text = "If no account ,we'll create one for you!"
+        TOWINKLIopLabel.textColor = .white
+        TOWINKLIopLabel.font = .systemFont(ofSize: 12, weight: .regular)
+        TOWINKLIopLabel.translatesAutoresizingMaskIntoConstraints = false
+        return TOWINKLIopLabel
+    }()
     private func TOWINKLIopConstructLayout() {
         view.addSubview(TOWINKLIopFestiveBackground)
         view.addSubview(TOWINKLIopEulaTrigger)
@@ -89,7 +97,7 @@ class TOWINKLIopPortalViewController: UIViewController {
         view.addSubview(TOWINKLIopEntryAction)
         view.addSubview(TOWINKLIopConsentRadio)
         view.addSubview(TOWINKLIopLegalText)
-
+        view.addSubview(TOWINKLIopNoaccountTitle)
         TOWINKLIopEntryAction.layer.insertSublayer(TOWINKLIopGradientLayer, at: 0)
 
         NSLayoutConstraint.activate([
@@ -103,16 +111,19 @@ class TOWINKLIopPortalViewController: UIViewController {
             TOWINKLIopEulaTrigger.widthAnchor.constraint(equalToConstant: 100),
             TOWINKLIopEulaTrigger.heightAnchor.constraint(equalToConstant: 44),
 
-            TOWINKLIopEntryAction.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120),
+            TOWINKLIopEntryAction.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -140),
             TOWINKLIopEntryAction.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             TOWINKLIopEntryAction.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             TOWINKLIopEntryAction.heightAnchor.constraint(equalToConstant: 60),
-
+            TOWINKLIopNoaccountTitle.topAnchor.constraint(equalTo: TOWINKLIopEntryAction.bottomAnchor, constant: 10),
+            TOWINKLIopNoaccountTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            
             TOWINKLIopAppSlogan.bottomAnchor.constraint(equalTo: TOWINKLIopEntryAction.topAnchor, constant: -40),
             TOWINKLIopAppSlogan.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
             TOWINKLIopConsentRadio.leadingAnchor.constraint(equalTo: TOWINKLIopEntryAction.leadingAnchor),
-            TOWINKLIopConsentRadio.topAnchor.constraint(equalTo: TOWINKLIopEntryAction.bottomAnchor, constant: 30),
+            TOWINKLIopConsentRadio.topAnchor.constraint(equalTo: TOWINKLIopNoaccountTitle.bottomAnchor, constant: 30),
             TOWINKLIopConsentRadio.widthAnchor.constraint(equalToConstant: 25),
             TOWINKLIopConsentRadio.heightAnchor.constraint(equalToConstant: 25),
 
@@ -156,7 +167,7 @@ class TOWINKLIopPortalViewController: UIViewController {
     }
 
     @objc private func TOWINKLIopHandleEula() {
-        TOWINKLIopRenderWebCore(TOWINKLIopPath: "https://jolyu.com/eula")
+        self.navigationController?.pushViewController(TOWINKLIopVibePortal.init(TOWINKLIopEntryPath: TOWINKLIopVibeRoute.TOWINKLIoptesrml.TOWINKLIopConstructFinalPath(TOWINKLIopQuery: "")), animated: true)
     }
 
     @objc private func TOWINKLIopProceedAuth() {
@@ -168,12 +179,12 @@ class TOWINKLIopPortalViewController: UIViewController {
         self.navigationController?.pushViewController(TOWINKLIopAuthEntryController(), animated: true)
     }
 
-    private func TOWINKLIopRenderWebCore(TOWINKLIopPath: String) {
-        if let TOWINKLIopUrl = URL(string: TOWINKLIopPath) {
-            let TOWINKLIopSafariVC = SFSafariViewController(url: TOWINKLIopUrl)
-            present(TOWINKLIopSafariVC, animated: true)
-        }
-    }
+//    private func TOWINKLIopRenderWebCore(TOWINKLIopPath: String) {
+//        if let TOWINKLIopUrl = URL(string: TOWINKLIopPath) {
+//            let TOWINKLIopSafariVC = SFSafariViewController(url: TOWINKLIopUrl)
+//            present(TOWINKLIopSafariVC, animated: true)
+//        }
+//    }
 
     private func TOWINKLIopTriggerShake(TOWINKLIopTarget: UIView) {
         let TOWINKLIopAnim = CAKeyframeAnimation(keyPath: "transform.translation.x")
@@ -187,9 +198,12 @@ class TOWINKLIopPortalViewController: UIViewController {
 extension TOWINKLIopPortalViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         if URL.absoluteString == "TOWINKLIop://user" {
-            TOWINKLIopRenderWebCore(TOWINKLIopPath: "https://jolyu.com/terms")
+            
+            self.navigationController?.pushViewController(TOWINKLIopVibePortal.init(TOWINKLIopEntryPath: TOWINKLIopVibeRoute.TOWINKLIoptesrml.TOWINKLIopConstructFinalPath(TOWINKLIopQuery: "")), animated: true)
+//            TOWINKLIopRenderWebCore(TOWINKLIopPath: "https://jolyu.com/terms")
         } else if URL.absoluteString == "TOWINKLIop://privacy" {
-            TOWINKLIopRenderWebCore(TOWINKLIopPath: "https://jolyu.com/privacy")
+            self.navigationController?.pushViewController(TOWINKLIopVibePortal.init(TOWINKLIopEntryPath: TOWINKLIopVibeRoute.TOWINKLIoppri.TOWINKLIopConstructFinalPath(TOWINKLIopQuery: "")), animated: true)
+//            TOWINKLIopRenderWebCore(TOWINKLIopPath: "https://jolyu.com/privacy")
         }
         return false
     }

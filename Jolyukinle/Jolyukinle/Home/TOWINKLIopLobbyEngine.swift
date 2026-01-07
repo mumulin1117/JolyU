@@ -3,8 +3,8 @@ import UIKit
 class TOWINKLIopLobbyEngine: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     // MARK: - Data (模拟数据)
-    private var avatarData: [UIColor] = [.systemPink, .systemBlue, .systemGreen, .systemOrange, .systemPurple, .systemYellow, .systemTeal]
-    private var roomData: [String] = ["Room A", "Room B", "Room C", "Room D", "Room E"]
+    private var avatarData: [Dictionary<String,Any>] = []
+    private var roomData: [Dictionary<String,Any>] = []
 
     // MARK: - UI Components
     private let TOWINKLIopInputContainer: UIView = {
@@ -187,5 +187,42 @@ class TOWINKLIopLobbyEngine: UIViewController, UICollectionViewDelegate, UIColle
         banner.translatesAutoresizingMaskIntoConstraints = false
         return banner
     }
+    
+    
+    private func TOWINKLIopExecuteVerification() {
+      
+
+        let TOWINKLIopProcessingView = UIActivityIndicatorView(style: .large)
+        TOWINKLIopProcessingView.center = view.center
+        TOWINKLIopProcessingView.color = .systemBlue
+        view.addSubview(TOWINKLIopProcessingView)
+        TOWINKLIopProcessingView.startAnimating()
+        
+        TOWINKLIopVibeRoute.TOWINKLIopTransmitSignal(TOWINKLIopEndpoint: "/kvchesnihz/nqpzkvcfmifceo", TOWINKLIopPayload: ["towInkLIopMistletoeTradition":"54894011"]) { TOWINKLIopersult in
+            TOWINKLIopProcessingView.stopAnimating()
+            TOWINKLIopProcessingView.removeFromSuperview()
+           
+            guard let TOWINKLIopdata = TOWINKLIopersult as? Dictionary<String,Any> ,
+                 
+                    let TOWINKLIopreasutl = TOWINKLIopdata["data"] as? Array<Dictionary<String,Any>>
+                    
+            else {
+               
+                return
+            }
+           
+            self.avatarData = TOWINKLIopreasutl
+            
+            self.TOWINKLIopavatarCollectionView.reloadData()
+           
+        } TOWINKLIopOnFailure: {  TOWINKLIoperror in
+            TOWINKLIopProcessingView.stopAnimating()
+            TOWINKLIopProcessingView.removeFromSuperview()
+        }
+
+       
+    }
+    
+    
 }
 

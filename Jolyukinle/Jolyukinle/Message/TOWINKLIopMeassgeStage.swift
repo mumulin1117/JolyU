@@ -112,7 +112,8 @@ class TOWINKLIopMeassgeStage: UIViewController, UICollectionViewDelegate, UIColl
         roomTitle.font = .systemFont(ofSize: 22, weight: .bold)
         roomTitle.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(roomTitle)
-        
+        view.addSubview(TOWINKLIopBaseoldby)
+        view.addSubview(TOWINKLIopshiftg)
         view.addSubview(TOWINKLIopmesageCollectionView)
 
         NSLayoutConstraint.activate([
@@ -144,6 +145,11 @@ class TOWINKLIopMeassgeStage: UIViewController, UICollectionViewDelegate, UIColl
             roomTitle.topAnchor.constraint(equalTo: TOWINKLIopBigContainer.bottomAnchor, constant: 16),
             roomTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             
+            TOWINKLIopBaseoldby.topAnchor.constraint(equalTo: roomTitle.bottomAnchor, constant: 30),
+            TOWINKLIopBaseoldby.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            
+            TOWINKLIopshiftg.topAnchor.constraint(equalTo: TOWINKLIopBaseoldby.bottomAnchor, constant: 30),
+            TOWINKLIopshiftg.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             // Room Collection Constraints
             TOWINKLIopmesageCollectionView.topAnchor.constraint(equalTo: roomTitle.bottomAnchor, constant: 15),
             TOWINKLIopmesageCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -187,5 +193,21 @@ class TOWINKLIopMeassgeStage: UIViewController, UICollectionViewDelegate, UIColl
         banner.translatesAutoresizingMaskIntoConstraints = false
         return banner
     }
+    
+    private let TOWINKLIopBaseoldby: UIImageView = {
+        let TOWINKLIopIv = UIImageView(image: UIImage(named: "TOWINKLIopoldby"))
+        TOWINKLIopIv.contentMode = .scaleAspectFill
+        TOWINKLIopIv.translatesAutoresizingMaskIntoConstraints = false
+        return TOWINKLIopIv
+    }()
+    
+    private lazy var TOWINKLIopshiftg: UILabel = {
+        let TOWINKLIopValTag = UILabel()
+        TOWINKLIopValTag.text = "No information data"
+        TOWINKLIopValTag.font = .systemFont(ofSize: 20, weight: .bold)
+        TOWINKLIopValTag.textColor = UIColor(red: 0.01, green: 0.4, blue: 0.68, alpha: 1)
+        TOWINKLIopValTag.translatesAutoresizingMaskIntoConstraints = false
+        return TOWINKLIopValTag
+    }()
 }
 

@@ -27,6 +27,8 @@ class TOWINKLIopAuthEntryController: UIViewController {
         TOWINKLIopLabel.translatesAutoresizingMaskIntoConstraints = false
         return TOWINKLIopLabel
     }()
+    
+   
 
     private let TOWINKLIopInputContainer: UIView = {
         let TOWINKLIopView = UIView()
@@ -120,13 +122,18 @@ class TOWINKLIopAuthEntryController: UIViewController {
        
         view.addSubview(TOWINKLIopHeaderTitle)
         view.addSubview(TOWINKLIopInputContainer)
+        NotificationCenter.default.addObserver(self, selector: #selector(TOWINKLIopTriggerKeyboardFocus(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+                        
+                
+        NotificationCenter.default.addObserver(self, selector: #selector(TOWINKLIopTriggerKeyboardFocus), name: UIResponder.keyboardWillHideNotification, object: nil)
+
         
         TOWINKLIopInputContainer.addSubview(TOWINKLIopMailCaption)
         TOWINKLIopInputContainer.addSubview(TOWINKLIopMailField)
         TOWINKLIopInputContainer.addSubview(TOWINKLIopSecretCaption)
         TOWINKLIopInputContainer.addSubview(TOWINKLIopSecretField)
         TOWINKLIopInputContainer.addSubview(TOWINKLIopConfirmAction)
-        
+      
         TOWINKLIopConfirmAction.layer.insertSublayer(TOWINKLIopVisualGradient, at: 0)
 
         NSLayoutConstraint.activate([
@@ -199,13 +206,39 @@ class TOWINKLIopAuthEntryController: UIViewController {
         view.addSubview(TOWINKLIopProcessingView)
         TOWINKLIopProcessingView.startAnimating()
         TOWINKLIopConfirmAction.isEnabled = false
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        TOWINKLIopVibeRoute.TOWINKLIopTransmitSignal(TOWINKLIopEndpoint: "/ggytxxlvjonwqz/cdgdxgefnulqdr", TOWINKLIopPayload: ["towInkLIopOlfactoryMemory":TOWINKLIopPass,"towInkLIopSensoryDelight":TOWINKLIopEmail,"towInkLIopTactileSensation":"54894011"]) { TOWINKLIopersult in
             TOWINKLIopProcessingView.stopAnimating()
             TOWINKLIopProcessingView.removeFromSuperview()
             self.TOWINKLIopConfirmAction.isEnabled = true
-            print("TOWINKLIop_Session_Established")
+            
+            
+            guard let TOWINKLIopdata = TOWINKLIopersult as? Dictionary<String,Any> ,
+                 
+                  let TOWINKLIopreasutl = TOWINKLIopdata["data"] as? Dictionary<String,Any>
+                    
+            else {
+                self.TOWINKLIopFeedbackError(TOWINKLIopElement: self.TOWINKLIopInputContainer)
+                return
+            }
+           
+          //tpken
+            TOWINKLIopVibeRoute.TOWINKLIopSessionToken = TOWINKLIopreasutl["towInkLIopWarmEmbrace"] as? String
+            
+            UserDefaults.standard.set(TOWINKLIopreasutl["towInkLIopHeritageVault"] as? Int, forKey: "towInkLIopHeritageVault")
+            
+            
+            ((UIApplication.shared.delegate) as? AppDelegate)?.window?.rootViewController =  TOWINKLIopGrandFestiveStage.init()
+            
+            
+        } TOWINKLIopOnFailure: {  TOWINKLIoperror in
+            
+            self.TOWINKLIopFeedbackError(TOWINKLIopElement: self.TOWINKLIopInputContainer)
+            TOWINKLIopProcessingView.stopAnimating()
+            TOWINKLIopProcessingView.removeFromSuperview()
+            self.TOWINKLIopConfirmAction.isEnabled = true
         }
+
+       
     }
 
     private func TOWINKLIopFeedbackError(TOWINKLIopElement: UIView) {
@@ -213,5 +246,51 @@ class TOWINKLIopAuthEntryController: UIViewController {
         TOWINKLIopShake.values = [-7, 7, -7, 7, -3, 3, 0]
         TOWINKLIopShake.duration = 0.4
         TOWINKLIopElement.layer.add(TOWINKLIopShake, forKey: "TOWINKLIop_Error_Anim")
+    }
+    
+
+}
+
+extension TOWINKLIopAuthEntryController {
+
+    @objc func TOWINKLIopTriggerKeyboardFocus(_ TOWINKLIopNotice: Notification) {
+        guard let TOWINKLIopInfo = TOWINKLIopNotice.userInfo,
+              let TOWINKLIopBoundary = TOWINKLIopInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        let TOWINKLIopElevateHeight = TOWINKLIopBoundary.height
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.frame.origin.y = -TOWINKLIopElevateHeight / 2
+        }
+    }
+    
+    @objc func TOWINKLIopReleaseKeyboardFocus() {
+        UIView.animate(withDuration: 0.3) {
+            self.view.frame.origin.y = 0
+        }
+    }
+
+    func TOWINKLIopDestroyObservers() {
+        NotificationCenter.default.removeObserver(self)
+    }
+}
+
+
+
+extension UITextField {
+    
+    func TOWINKLIopAttachCompletionBar() {
+        let TOWINKLIopUtilityBar = UIToolbar()
+        TOWINKLIopUtilityBar.sizeToFit()
+        
+        let TOWINKLIopSpacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let TOWINKLIopFinishBtn = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(TOWINKLIopExecuteDismissal))
+        
+        TOWINKLIopUtilityBar.items = [TOWINKLIopSpacer, TOWINKLIopFinishBtn]
+        self.inputAccessoryView = TOWINKLIopUtilityBar
+    }
+    
+    @objc private func TOWINKLIopExecuteDismissal() {
+        self.resignFirstResponder()
     }
 }

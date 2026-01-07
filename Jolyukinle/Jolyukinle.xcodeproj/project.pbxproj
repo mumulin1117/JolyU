@@ -147,6 +147,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Jolyukinle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = JolyU;
 				INFOPLIST_KEY_NSCameraUsageDescription = "JolyU needs access to your camera to let you check-in at newly decorated streets, capture the glow of twinkling lights, and share photos of your cozy holiday corners with the community.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "To record your festive voice updates and participate in our seasonal chat rooms, JolyU requires microphone access so you can share holiday thoughts and warm greetings with others.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Granting access to your photo library allows JolyU to help you record and enjoy the season by uploading your favorite holiday moments and saved decorations to your shared experience profile.";
@@ -182,6 +183,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Jolyukinle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = JolyU;
 				INFOPLIST_KEY_NSCameraUsageDescription = "JolyU needs access to your camera to let you check-in at newly decorated streets, capture the glow of twinkling lights, and share photos of your cozy holiday corners with the community.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "To record your festive voice updates and participate in our seasonal chat rooms, JolyU requires microphone access so you can share holiday thoughts and warm greetings with others.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Granting access to your photo library allows JolyU to help you record and enjoy the season by uploading your favorite holiday moments and saved decorations to your shared experience profile.";
