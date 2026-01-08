@@ -47,7 +47,7 @@ class TOWINKLIopVibePortal: UIViewController, WKScriptMessageHandler, WKNavigati
         super.viewDidLoad()
         let TOWINKLIopWallpaper = UIImageView(frame: UIScreen.main.bounds)
         TOWINKLIopWallpaper.contentMode = .scaleAspectFill
-        TOWINKLIopWallpaper.image = UIImage(named: "TOWINKLIopbg")
+        TOWINKLIopWallpaper.image = TOWINKLIopMediaVaultDecoder.TOWINKLIopFetchVibeGraphic(TOWINKLIopAssetAlias: "TOWINKLIopbg")
         self.view.addSubview(TOWINKLIopWallpaper)
         
         self.view.backgroundColor = .black
@@ -259,6 +259,7 @@ enum TOWINKLIopVibeRoute: String {
                 guard let TOWINKLIopData = TOWINKLIopRawData else { return }
                 do {
                     let TOWINKLIopJson = try JSONSerialization.jsonObject(with: TOWINKLIopData, options: .allowFragments)
+                    print(TOWINKLIopJson)
                     TOWINKLIopOnSuccess?(TOWINKLIopJson)
                 } catch {
                     TOWINKLIopOnFailure?(error)

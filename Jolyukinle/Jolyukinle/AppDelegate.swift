@@ -16,11 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow.init(frame: UIScreen.main.bounds)
         
-        let nameroot = UINavigationController(rootViewController: (TOWINKLIopVibeRoute.TOWINKLIopSessionToken == nil) ? TOWINKLIopPortalViewController() : TOWINKLIopGrandFestiveStage())
+        let TOWINKLIopnameroot = UINavigationController(rootViewController: (TOWINKLIopVibeRoute.TOWINKLIopSessionToken == nil) ? TOWINKLIopPortalViewController() : TOWINKLIopGrandFestiveStage())
         
         
-        nameroot.navigationBar.isHidden = true
-        window?.rootViewController = nameroot
+        TOWINKLIopnameroot.navigationBar.isHidden = true
+        window?.rootViewController = TOWINKLIopnameroot
         window?.makeKeyAndVisible()
         return true
     }
