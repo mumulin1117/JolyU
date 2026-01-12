@@ -1,18 +1,15 @@
-//
-//  TOWINKLIopGrandFestiveStage.swift
-//  Jolyukinle
-//
-//  Created by  on 2026/1/5.
-//
-
 import UIKit
 
 class TOWINKLIopGrandFestiveStage: UIViewController {
     
     private let TOWINKLIopPortalContainer = UIView()
     private let TOWINKLIopHolidayDock = UIView()
-    private var TOWINKLIopActiveScene: UIViewController?
     private let TOWINKLIopDockHeight: CGFloat = 95
+    
+    // MARK: - 缓存池 (Cache Engine)
+    // 使用字典缓存已创建的控制器，防止重复加载
+    private var TOWINKLIopSceneRegistry: [Int: UIViewController] = [:]
+    private var TOWINKLIopCurrentIndex: Int = -1
     
     private let TOWINKLIopNavigationNodes: [UIButton] = (0..<5).map { TOWINKLIopIdx in
         let TOWINKLIopNode = UIButton()
@@ -20,20 +17,17 @@ class TOWINKLIopGrandFestiveStage: UIViewController {
         TOWINKLIopNode.setImage(TOWINKLIopMediaVaultDecoder.TOWINKLIopFetchVibeGraphic(TOWINKLIopAssetAlias: TOWINKLIopGlyphs[TOWINKLIopIdx].0), for: .normal)
         TOWINKLIopNode.setImage(TOWINKLIopMediaVaultDecoder.TOWINKLIopFetchVibeGraphic(TOWINKLIopAssetAlias: TOWINKLIopGlyphs[TOWINKLIopIdx].1), for: .selected)
         TOWINKLIopNode.tag = TOWINKLIopIdx
-        print(TOWINKLIopIdx)
-        
         return TOWINKLIopNode
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         TOWINKLIopConstructInfrastructure()
-        TOWINKLIopNavigateToPortal(TOWINKLIopTarget: 0)
+        TOWINKLIopNavigateToPortal(TOWINKLIopTarget: 0) // 初始加载第一页
     }
     
     private func TOWINKLIopConstructInfrastructure() {
         view.backgroundColor = .white
-        
         TOWINKLIopPortalContainer.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(TOWINKLIopPortalContainer)
         
@@ -55,12 +49,10 @@ class TOWINKLIopGrandFestiveStage: UIViewController {
             TOWINKLIopPortalContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             TOWINKLIopPortalContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             TOWINKLIopPortalContainer.bottomAnchor.constraint(equalTo: TOWINKLIopHolidayDock.topAnchor),
-            
             TOWINKLIopHolidayDock.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             TOWINKLIopHolidayDock.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             TOWINKLIopHolidayDock.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             TOWINKLIopHolidayDock.heightAnchor.constraint(equalToConstant: TOWINKLIopDockHeight),
-            
             TOWINKLIopStack.topAnchor.constraint(equalTo: TOWINKLIopHolidayDock.topAnchor, constant: 10),
             TOWINKLIopStack.leadingAnchor.constraint(equalTo: TOWINKLIopHolidayDock.leadingAnchor),
             TOWINKLIopStack.trailingAnchor.constraint(equalTo: TOWINKLIopHolidayDock.trailingAnchor),
@@ -76,42 +68,50 @@ class TOWINKLIopGrandFestiveStage: UIViewController {
     
     private func TOWINKLIopNavigateToPortal(TOWINKLIopTarget: Int) {
         if TOWINKLIopTarget == 2 {
-                   
             TOWINKLIopInvokePublishingSheet()
-            return // Do not switch the main scene for the popup case
+            return
         }
         
-        TOWINKLIopActiveScene?.willMove(toParent: nil)
-        TOWINKLIopActiveScene?.view.removeFromSuperview()
-        TOWINKLIopActiveScene?.removeFromParent()
-        
+        // 1. 如果点击的是当前页，直接返回
+        if TOWINKLIopCurrentIndex == TOWINKLIopTarget { return }
+
+        // 2. 隐藏旧的视图 (Hide current view instead of removing)
+        if let TOWINKLIopOldScene = TOWINKLIopSceneRegistry[TOWINKLIopCurrentIndex] {
+            TOWINKLIopOldScene.view.isHidden = true
+        }
+
+        // 3. 获取或创建新视图 (Retrieve from cache or instantiate)
         let TOWINKLIopNewScene: UIViewController
-        switch TOWINKLIopTarget {
-        case 0: TOWINKLIopNewScene = TOWINKLIopLobbyEngine()
-        case 1: TOWINKLIopNewScene = TOWINKLIopVibeDynamicStage()
-        case 3: TOWINKLIopNewScene = TOWINKLIopMeassgeStage()
-       
-        case 4:TOWINKLIopNewScene = TOWINKLIopCenterStage()
-        default: TOWINKLIopNewScene = UIViewController()
-        }
-        
-        addChild(TOWINKLIopNewScene)
-        TOWINKLIopNewScene.view.frame = TOWINKLIopPortalContainer.bounds
-        TOWINKLIopPortalContainer.addSubview(TOWINKLIopNewScene.view)
-        TOWINKLIopNewScene.didMove(toParent: self)
-        TOWINKLIopActiveScene = TOWINKLIopNewScene
-        
-        for (TOWINKLIopIdx, TOWINKLIopNode) in TOWINKLIopNavigationNodes.enumerated() {
-            if TOWINKLIopIdx == TOWINKLIopTarget {
-                TOWINKLIopNode.isSelected = true
-            }else{
-                TOWINKLIopNode.isSelected = false
+        if let TOWINKLIopCachedScene = TOWINKLIopSceneRegistry[TOWINKLIopTarget] {
+            TOWINKLIopNewScene = TOWINKLIopCachedScene
+            TOWINKLIopNewScene.view.isHidden = false
+        } else {
+            // 首次加载创建
+            switch TOWINKLIopTarget {
+            case 0: TOWINKLIopNewScene = TOWINKLIopLobbyEngine()
+            case 1: TOWINKLIopNewScene = TOWINKLIopVibeDynamicStage()
+            case 3: TOWINKLIopNewScene = TOWINKLIopMeassgeStage()
+            case 4: TOWINKLIopNewScene = TOWINKLIopCenterStage()
+            default: TOWINKLIopNewScene = UIViewController()
             }
-//            if TOWINKLIopIdx != 2 {
-//                TOWINKLIopNode.is = TOWINKLIopIdx == TOWINKLIopTarget ? UIColor.systemBlue : .systemGray4
-//            }
+            
+            TOWINKLIopNewScene.view.frame = TOWINKLIopPortalContainer.bounds
+            addChild(TOWINKLIopNewScene)
+            TOWINKLIopPortalContainer.addSubview(TOWINKLIopNewScene.view)
+            TOWINKLIopNewScene.didMove(toParent: self)
+            // 存入缓存
+            TOWINKLIopSceneRegistry[TOWINKLIopTarget] = TOWINKLIopNewScene
+        }
+
+        TOWINKLIopCurrentIndex = TOWINKLIopTarget
+        
+        // 更新按钮选中状态
+        for (TOWINKLIopIdx, TOWINKLIopNode) in TOWINKLIopNavigationNodes.enumerated() {
+            TOWINKLIopNode.isSelected = (TOWINKLIopIdx == TOWINKLIopTarget)
         }
     }
+    
+
     
     private func TOWINKLIopInvokePublishingSheet() {
             let TOWINKLIopAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)

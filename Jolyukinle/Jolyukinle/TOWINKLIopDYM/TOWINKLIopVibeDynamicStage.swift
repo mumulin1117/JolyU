@@ -87,7 +87,8 @@ class TOWINKLIopVibeDynamicStage: UIViewController {
         TOWINKLIopInputContainer.addSubview(headerBox)
         
         view.addSubview(TOWINKLIopCategoryToggle)
-        view.addSubview(TOWINKLIopMainCollection)
+       
+        
         NSLayoutConstraint.activate([
             TOWINKLIopInputContainer.topAnchor.constraint(equalTo: view.topAnchor),
             TOWINKLIopInputContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -130,10 +131,11 @@ class TOWINKLIopVibeDynamicStage: UIViewController {
 
     @objc private func TOWINKLIopSwitchFeed(_ sender: UISegmentedControl) {
         TOWINKLIopCurrentState = sender.selectedSegmentIndex == 0 ? .TOWINKLIopMomentMode : .TOWINKLIopVideoMode
-        
-        UIView.transition(with: TOWINKLIopMainCollection, duration: 0.35, options: .transitionCrossDissolve, animations: {
-            self.TOWINKLIopMainCollection.reloadData()
-        }, completion: nil)
+        TOWINKLIopExecuteVerification()
+//        UIView.transition(with: TOWINKLIopMainCollection, duration: 0.35, options: .transitionCrossDissolve, animations: {
+//            
+//            self.TOWINKLIopMainCollection.reloadData()
+//        }, completion: nil)
     }
 }
 
@@ -148,14 +150,14 @@ extension TOWINKLIopVibeDynamicStage: UICollectionViewDataSource, UICollectionVi
             TOWINKLIopCell.TOWINKLIoAlertButton.addTarget(self, action: #selector(TOWINKLIopset), for: .touchUpInside)
             let shiajd = TOWINKLIopnormabasicData[indexPath.row]
             TOWINKLIopCell.TOWINKLIopUsername.text = shiajd["towInkLIopNorthernLights"] as? String
-            TOWINKLIopCell.TOWINKLIopPostTime.text = "\(shiajd["towInkLIopWoolenComfort"] as? Int ?? 0)"
-            TOWINKLIopCell.TOWINKLIopDymdetauil.text = shiajd["towInkLIopRhythmicBells"] as? String
+            TOWINKLIopCell.TOWINKLIopPostTime.text = timeIntervaltrns(timeInterval: TimeInterval.init(integerLiteral: Int64((shiajd["towInkLIopWoolenComfort"] as? Int ?? 0)/1000)))
+            TOWINKLIopCell.TOWINKLIopDymdetauil.text = shiajd["towInkLIopChimingClock"] as? String
             
             if let acvat = (shiajd["towInkLIopFiresideChatter"] as? Array<String>)?.first {
                 TOWINKLIopCell.TOWINKLIopone?.TOWINKLIopAssignRemoteImage(TOWINKLIopPath:acvat )
             }
             
-            if (shiajd["towInkLIopFiresideChatter"] as? Array<String>)?.count ?? 0 >= 2 ,let  acvat = (shiajd["towInkLIopFiresideChatter"] as? Array<String>)?[2]{
+            if (shiajd["towInkLIopFiresideChatter"] as? Array<String>)?.count ?? 0 >= 2 ,let  acvat = (shiajd["towInkLIopFiresideChatter"] as? Array<String>)?[1]{
                 TOWINKLIopCell.TOWINKLIoptwo?.TOWINKLIopAssignRemoteImage(TOWINKLIopPath:acvat )
             }
             
@@ -181,11 +183,23 @@ extension TOWINKLIopVibeDynamicStage: UICollectionViewDataSource, UICollectionVi
             }
             
             TOWINKLIopCell.TOWINKLIopUsername.text = shiajd["towInkLIopNorthernLights"] as? String
-         
+            TOWINKLIopCell.TOWINKLIopVibeLabel.text =  shiajd["towInkLIopChimingClock"] as? String
             return TOWINKLIopCell
         }
     }
     
+    
+    func timeIntervaltrns(timeInterval:TimeInterval) -> String {
+       
+        let date = Date(timeIntervalSince1970: timeInterval)
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // 自定义格式
+        let dateString = formatter.string(from: date)
+        print(dateString) // 输出: 2026-01-01 00:00:00
+        return dateString
+       
+    }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         
